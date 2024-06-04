@@ -15,9 +15,10 @@ st.write("Name on smoothie will be: ", name_on_order)
 
 session = conn.session()
 my_dataframe = session.table("smoothies.public.fruit_options")\
-                .select(col("FRUIT_NAME"))
-# st.dataframe(data=my_dataframe, use_container_width=True)
-
+                .select(col("FRUIT_NAME"), col("SEARCH_ON))
+st.dataframe(data=my_dataframe, use_container_width=True)
+st.stop()
+                                               
 ingredients_list = st.multiselect(
     "Choose upto 5 ingredients"
     ,my_dataframe
@@ -29,7 +30,7 @@ if ingredients_list:
     for i in ingredients_list:
         ingredients_str += i + ' '
         st.subheader(i + ' Nutrition Information')
-        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
+        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+i)
         fv_dt = st.dataframe(data=fruityvice_response.json(), use_container_width=True)
         
     st.write(ingredients_str)

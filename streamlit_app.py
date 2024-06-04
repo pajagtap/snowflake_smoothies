@@ -25,8 +25,12 @@ ingredients_list = st.multiselect(
 )
 if ingredients_list:
     ingredients_str = ''
+    
     for i in ingredients_list:
         ingredients_str += i + ' '
+        st.subheader(i + ' Nutrition Information')
+        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
+        fv_dt = st.dataframe(data=fruityvice_response.json(), use_container_width=True)
         
     st.write(ingredients_str)
 
@@ -41,6 +45,4 @@ if ingredients_list:
         st.success('Your Smoothie is ordered!', icon="✅")
 
 
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-# st.text(fruityvice_response)
-fv_dt = st.dataframe(data=fruityvice_response.json(), use_container_width=True)
+
